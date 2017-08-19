@@ -5,16 +5,16 @@ ups=$1
 
 if [ $ups = ups.discovery ]; then
 
-    echo -e "{\n\t\"data\":["
+    echo -n '{"data":['
     first=1
     $UPSC_CMD -l 2>&1 | grep -v SSL | while read discovered ; do 
         if [ $first -eq 0 ]; then
-            echo -e ","
+            echo -n ','
         fi
-        echo -en "\t\t{ \"{#UPSNAME}\":\t\"${discovered}\" }"
+        printf '{"{#UPSNAME}":"%s"}' "$discovered"
         first=0
     done
-    echo -e "\n\t]\n}"
+    echo -n ']}'
 
 else
 key=$2
