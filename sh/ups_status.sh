@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/bin/sh
  
 UPSC_CMD=/usr/local/bin/upsc
-ups=$1
+
+ups=${1:?'UPS name or ups.discovery must be first parameter.'}
 
 if [ $ups = ups.discovery ]; then
 
@@ -17,7 +18,8 @@ if [ $ups = ups.discovery ]; then
     echo -n ']}'
 
 else
-key=$2
+
+key=${2:?'Item key must be specified.'}
 
 if [ $key = ups.status ]; then
 	state=`$UPSC_CMD $ups $key 2>&1 | grep -v SSL`
