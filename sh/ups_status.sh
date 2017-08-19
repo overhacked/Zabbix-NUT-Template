@@ -1,12 +1,13 @@
 #!/bin/bash
  
+UPSC_CMD=/usr/local/bin/upsc
 ups=$1
 
 if [ $ups = ups.discovery ]; then
 
     echo -e "{\n\t\"data\":["
     first=1
-    /bin/upsc -l 2>&1 | grep -v SSL | while read discovered ; do 
+    $UPSC_CMD -l 2>&1 | grep -v SSL | while read discovered ; do 
         if [ $first -eq 0 ]; then
             echo -e ","
         fi
@@ -19,7 +20,7 @@ else
 key=$2
 
 if [ $key = ups.status ]; then
-	state=`/bin/upsc $ups $key 2>&1 | grep -v SSL`
+	state=`$UPSC_CMD $ups $key 2>&1 | grep -v SSL`
 	case $state in
 		OL)		echo 1 ;; #'On line (mains is present)' ;;
 		OB)		echo 2 ;; #'On battery (mains is not present)' ;;
@@ -36,7 +37,7 @@ if [ $key = ups.status ]; then
 		* )		echo 0 ;; #'unknown state' ;;
 	esac
 else
-	/bin/upsc $ups $key  2>&1 | grep -v SSL
+	$UPSC_CMD $ups $key  2>&1 | grep -v SSL
 fi
 
 fi
