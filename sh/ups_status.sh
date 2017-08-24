@@ -8,7 +8,7 @@ if [ $ups = ups.discovery ]; then
 
     echo -n '{"data":['
     first=1
-    $UPSC_CMD -l 2>&1 | grep -v SSL | while read discovered ; do 
+    $UPSC_CMD -l 2>&1 | grep -Ev '(SSL|^Error:)' | while read discovered ; do
         if [ $first -eq 0 ]; then
             echo -n ','
         fi
@@ -20,9 +20,9 @@ if [ $ups = ups.discovery ]; then
 else
 
 key=${2:?'Item key must be specified.'}
+statusval=$($UPSC_CMD $ups $key 2>&1 | grep -v SSL)
 
 if [ $key = ups.status ]; then
-	statusval=$($UPSC_CMD $ups $key 2>&1 | grep -v SSL)
 	retval=0
 	for state in $statusval; do
 		case $state in
@@ -43,7 +43,19 @@ if [ $key = ups.status ]; then
 	done
 	echo $retval
 else
-	$UPSC_CMD $ups $key  2>&1 | grep -v SSL
+	case ${statusval} in
+		*"Variable not supported"*)
+			echo ""
+			exit 0
+			;;
+		"Error: "*)
+			printf "%s" "${statusval}"
+			exit 1
+			;;
+		*)
+			printf "%s" "${statusval}"
+			;;
+	esac
 fi
 
 fi
