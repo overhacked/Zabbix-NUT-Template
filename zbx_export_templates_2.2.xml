@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>2.0</version>
+    <version>2.2</version>
     <date>2014-07-01T09:43:44Z</date>
     <groups>
         <group>
@@ -411,7 +411,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=5</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,16)}=16</expression>
                             <name>UPS {#UPSNAME} Status - Battery is charging</name>
                             <url/>
                             <status>0</status>
@@ -420,7 +420,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=11</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,2048)}=2048</expression>
                             <name>UPS {#UPSNAME} Status - Boosting incoming voltage</name>
                             <url/>
                             <status>0</status>
@@ -429,7 +429,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=7</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,64)}=64</expression>
                             <name>UPS {#UPSNAME} Status - Bypass</name>
                             <url/>
                             <status>0</status>
@@ -438,7 +438,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=8</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,128)}=128</expression>
                             <name>UPS {#UPSNAME} Status - Calibration</name>
                             <url/>
                             <status>0</status>
@@ -447,7 +447,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=3</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,4)}=4</expression>
                             <name>UPS {#UPSNAME} Status - Low battery</name>
                             <url/>
                             <status>0</status>
@@ -456,7 +456,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=9</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,256)}=256</expression>
                             <name>UPS {#UPSNAME} Status - Offline</name>
                             <url/>
                             <status>0</status>
@@ -465,7 +465,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=2</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,2)}=2</expression>
                             <name>UPS {#UPSNAME} Status - On battery</name>
                             <url/>
                             <status>0</status>
@@ -474,7 +474,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=10</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,512)}=512</expression>
                             <name>UPS {#UPSNAME} Status - Overloaded</name>
                             <url/>
                             <status>0</status>
@@ -483,7 +483,7 @@
                             <type>0</type>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=11</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,1024)}=1024</expression>
                             <name>UPS {#UPSNAME} Status - Trimming incoming voltage</name>
                             <url/>
                             <status>0</status>

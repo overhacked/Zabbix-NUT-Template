@@ -22,22 +22,26 @@ else
 key=${2:?'Item key must be specified.'}
 
 if [ $key = ups.status ]; then
-	state=`$UPSC_CMD $ups $key 2>&1 | grep -v SSL`
-	case $state in
-		OL)		echo 1 ;; #'On line (mains is present)' ;;
-		OB)		echo 2 ;; #'On battery (mains is not present)' ;;
-		LB)		echo 3 ;; #'Low battery' ;;
-		RB)		echo 4 ;; #'The battery needs to be replaced' ;;
-		CHRG)		echo 5 ;; #'The battery is charging' ;;
-		DISCHRG)	echo 6 ;; #'The battery is discharging (inverter is providing load power)' ;;
-		BYPASS)		echo 7 ;; #'UPS bypass circuit is active echo no battery protection is available' ;;
-		CAL)		echo 8 ;; #'UPS is currently performing runtime calibration (on battery)' ;;
-		OFF)		echo 9 ;; #'UPS is offline and is not supplying power to the load' ;;
-		OVER)		echo 10 ;; #'UPS is overloaded' ;;
-		TRIM)		echo 11 ;; #'UPS is trimming incoming voltage (called "buck" in some hardware)' ;;
-		BOOST)		echo 12 ;; #'UPS is boosting incoming voltage' ;;
-		* )		echo 0 ;; #'unknown state' ;;
-	esac
+	statusval=$($UPSC_CMD $ups $key 2>&1 | grep -v SSL)
+	retval=0
+	for state in $statusval; do
+		case $state in
+			OVER)		retval=$(($retval | 512)) ;; #'UPS is overloaded' ;;
+			TRIM)		retval=$(($retval | 1024)) ;; #'UPS is trimming incoming voltage (called "buck" in some hardware)' ;;
+			BOOST)		retval=$(($retval | 2048)) ;; #'UPS is boosting incoming voltage' ;;
+			OL)		retval=$(($retval | 1)) ;; #'On line (mains is present)' ;;
+			OB)		retval=$(($retval | 2)) ;; #'On battery (mains is not present)' ;;
+			LB)		retval=$(($retval | 4)) ;; #'Low battery' ;;
+			RB)		retval=$(($retval | 8)) ;; #'The battery needs to be replaced' ;;
+			CHRG)		retval=$(($retval | 16)) ;; #'The battery is charging' ;;
+			DISCHRG)	retval=$(($retval | 32)) ;; #'The battery is discharging (inverter is providing load power)' ;;
+			BYPASS)		retval=$(($retval | 64)) ;; #'UPS bypass circuit is active echo no battery protection is available' ;;
+			CAL)		retval=$(($retval | 128)) ;; #'UPS is currently performing runtime calibration (on battery)' ;;
+			OFF)		retval=$(($retval | 256)) ;; #'UPS is offline and is not supplying power to the load' ;;
+			*)		retval=$(($retval | 0)) ;; #'unknown state' ;;
+		esac;
+	done
+	echo $retval
 else
 	$UPSC_CMD $ups $key  2>&1 | grep -v SSL
 fi

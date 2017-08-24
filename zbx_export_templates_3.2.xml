@@ -446,7 +446,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=5</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,16)}=16</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Battery is charging</name>
@@ -462,7 +462,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=11</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,2048)}=2048</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Boosting incoming voltage</name>
@@ -478,7 +478,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=7</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,64)}=64</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Bypass</name>
@@ -494,7 +494,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=8</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,128)}=128</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Calibration</name>
@@ -510,7 +510,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=3</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,4)}=4</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Low battery</name>
@@ -526,7 +526,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=9</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,256)}=256</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Offline</name>
@@ -542,7 +542,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=2</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,2)}=2</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - On battery</name>
@@ -558,7 +558,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=10</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,512)}=512</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Overloaded</name>
@@ -574,7 +574,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=11</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].band(,1024)}=1024</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Trimming incoming voltage</name>
@@ -590,7 +590,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last(0)}=0</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.status].last()}=0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Status - Unknown state</name>
@@ -606,7 +606,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},ups.temperature].last(0)}&gt;28</expression>
+                            <expression>{UPS:upsmon[{#UPSNAME},ups.temperature].last()}&gt;28</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>UPS {#UPSNAME} Temperature</name>
@@ -822,44 +822,80 @@
                     <newvalue>On battery (mains is not present)</newvalue>
                 </mapping>
                 <mapping>
-                    <value>3</value>
+                    <value>4</value>
                     <newvalue>Low battery</newvalue>
                 </mapping>
                 <mapping>
-                    <value>4</value>
-                    <newvalue>The battery needs to be replaced</newvalue>
-                </mapping>
-                <mapping>
                     <value>5</value>
-                    <newvalue>The battery is charging</newvalue>
+                    <newvalue>On line, low battery (mains is present)</newvalue>
                 </mapping>
                 <mapping>
                     <value>6</value>
-                    <newvalue>The battery is discharging (inverter is providing load power)</newvalue>
-                </mapping>
-                <mapping>
-                    <value>7</value>
-                    <newvalue>UPS bypass circuit is active: no battery protection is available</newvalue>
+                    <newvalue>On LOW battery (mains is not present)</newvalue>
                 </mapping>
                 <mapping>
                     <value>8</value>
-                    <newvalue>UPS is currently performing runtime calibration (on battery)</newvalue>
+                    <newvalue>The battery needs to be replaced</newvalue>
                 </mapping>
                 <mapping>
                     <value>9</value>
+                    <newvalue>The battery needs to be replaced</newvalue>
+                </mapping>
+                <mapping>
+                    <value>16</value>
+                    <newvalue>The battery is charging</newvalue>
+                </mapping>
+                <mapping>
+                    <value>17</value>
+                    <newvalue>On line, charging (mains is present)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>32</value>
+                    <newvalue>The battery is discharging (inverter is providing load power)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>34</value>
+                    <newvalue>On battery (mains is not present)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>64</value>
+                    <newvalue>UPS bypass circuit is active: no battery protection is available</newvalue>
+                </mapping>
+                <mapping>
+                    <value>128</value>
+                    <newvalue>UPS is currently performing runtime calibration (on battery)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>130</value>
+                    <newvalue>UPS is currently performing runtime calibration (on battery)</newvalue>
+                </mapping>
+                <mapping>
+                    <value>256</value>
                     <newvalue>UPS is offline and is not supplying power to the load</newvalue>
                 </mapping>
                 <mapping>
-                    <value>10</value>
+                    <value>512</value>
                     <newvalue>UPS is overloaded</newvalue>
                 </mapping>
                 <mapping>
-                    <value>11</value>
+                    <value>513</value>
+                    <newvalue>On line, UPS is overloaded</newvalue>
+                </mapping>
+                <mapping>
+                    <value>1024</value>
                     <newvalue>UPS is trimming incoming voltage (&quot;buck&quot; in some hardware)</newvalue>
                 </mapping>
                 <mapping>
-                    <value>12</value>
+                    <value>1058</value>
+                    <newvalue>UPS is trimming incoming voltage, on battery</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2048</value>
                     <newvalue>UPS is boosting incoming voltage</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2082</value>
+                    <newvalue>UPS is boosting incoming voltage, on battery</newvalue>
                 </mapping>
             </mappings>
         </value_map>
