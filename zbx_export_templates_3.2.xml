@@ -414,9 +414,9 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},battery.charge].last(0)}&lt;40</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <expression>{UPS:upsmon[{#UPSNAME},battery.charge].last()}&lt;40 and {UPS:upsmon[{#UPSNAME},ups.status].band(,48)}=32</expression>
+                            <recovery_mode>1</recovery_mode>
+                            <recovery_expression>{UPS:upsmon[{#UPSNAME},battery.charge].last()}&gt;=40</recovery_expression>
                             <name>UPS {#UPSNAME} Charge &lt; 40%</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
@@ -430,9 +430,9 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{UPS:upsmon[{#UPSNAME},battery.charge].last(0)}&lt;90</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <expression>{UPS:upsmon[{#UPSNAME},battery.charge].max(30)}&lt;90 and {UPS:upsmon[{#UPSNAME},ups.status].band(,48)}=32</expression>
+                            <recovery_mode>1</recovery_mode>
+                            <recovery_expression>{UPS:upsmon[{#UPSNAME},battery.charge].min(30)}&gt;=90</recovery_expression>
                             <name>UPS {#UPSNAME} Charge &lt; 90%</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
