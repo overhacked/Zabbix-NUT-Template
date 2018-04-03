@@ -6,16 +6,8 @@ ups=${1:?'UPS name or ups.discovery must be first parameter.'}
 
 if [ $ups = ups.discovery ]; then
 
-    echo -n '{"data":['
-    first=1
-    $UPSC_CMD -l 2>&1 | grep -Ev '(SSL|^Error:)' | while read discovered ; do
-        if [ $first -eq 0 ]; then
-            echo -n ','
-        fi
-        printf '{"{#UPSNAME}":"%s"}' "$discovered"
-        first=0
-    done
-    echo -n ']}'
+	# Put newlines at the semicolons to make this more readable
+    $UPSC_CMD -L 2>&1 | awk 'BEGIN { FS=":"; printf "{\"data\":[" }; !/(SSL|^Error:)/ { if (NR > 1) printf ","; printf "{\"{\#UPSNAME}\":\"%s\",\"{\#UPSDESC}\":\"%s\"}", $1, substr($2,2) }; END { printf "]}" }'
 
 else
 
